@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "styleCop": {
+    "rules": {
+      "requireExplicitTypes": true,
+      "requireAccessModifiers": true,
+      "indentation": 4,
+      "useVar": false
+    }
+  }
+}

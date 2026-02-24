@@ -1,0 +1,13 @@
+# .gitattributes for consistent Git behavior
+* text=auto
+*.cs diff=csharp
+*.cs linguist-language=C#
+*.csx linguist-language=C#
+*.sln text eol=crlf
+*.csproj text eol=crlf
+*.json text eol=lf
+*.md text eol=lf
+*.sh text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.editorconfig text eol=lf

@@ -1,0 +1,43 @@
+# .gitignore for Flyntic Studio (.NET, VSCode)
+
+# Build results
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# VS Code settings
+.vscode/
+
+# Rider settings
+.idea/
+*.sln.iml
+
+# ASP.NET generated files
+wwwroot/dist/
+wwwroot/node_modules/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Others
+*.swp
+*.tmp
+
+# Dotnet publish output
+publish/
+
+# Test results
+TestResults/
+
+# NuGet packages
+*.nupkg
+packages/
