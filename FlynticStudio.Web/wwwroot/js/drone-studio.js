@@ -9,6 +9,7 @@
 const Studio = {
     components: window.initialComponents || [],
     placedComponents: window.placedComponents || [],
+    wires: [], // Track wiring connectivity
     selectedComponent: null,
     selectedComponents: [], // Multi-selection
     simulationState: 'stopped', // stopped, playing, paused
@@ -126,17 +127,80 @@ function togglePlay() {
 }
 
 async function playSimulation() {
+    // PRE-FLIGHT CHECK (Logical assembly and wiring)
+    const components = Studio.placedComponents;
+    const wires = Studio.wires;
+
+    const hasBattery = components.some(c => c.type === 'Battery');
+    const motors = components.filter(c => c.type === 'Motor');
+    const frames = components.filter(c => c.type === 'Frame');
+    const hasFrame = frames.length > 0;
+
+    // Simple Wiring check: Is battery connected to anything?
+    const batteryId = components.find(c => c.type === 'Battery')?.instanceId;
+    const batteryWired = wires.some(w => w.from === batteryId || w.to === batteryId);
+
+    // Are there propellers on motors? (Check motors without props)
+    const unwiredMotors = motors.filter(m => !wires.some(w => w.from === m.instanceId || w.to === m.instanceId));
+    const props = components.filter(c => c.type === 'Propeller');
+
+    // Asymmetrical lift calculation for tilt
+    let tiltX = 0;
+    let tiltZ = 0;
+    let flightCapability = 'Stable';
+
+    if (!hasFrame || !hasBattery || !batteryWired || motors.length < 2) {
+        flightCapability = 'Cannot fly';
+        if (!hasFrame) log('error', 'Pre-flight Check: No Frame detected');
+        else if (!hasBattery) log('error', 'Pre-flight Check: No Battery detected');
+        else if (!batteryWired) log('error', 'Pre-flight Check: Battery is not wired!');
+        else if (motors.length < 2) log('error', 'Pre-flight Check: At least 2 motors required to fly');
+    } else {
+        // Find which motors have no props (simplified: if count < motors, tilt based on first missing)
+        if (unwiredMotors.length > 0) {
+            flightCapability = 'Unstable';
+            log('warning', `Pre-flight: ${unwiredMotors.length} motors have NO POWER (not wired)`);
+            // Dynamic tilt based on motor position
+            unwiredMotors.forEach(m => {
+                tiltX += (m.gridX > 5 ? -1.0 : 1.0);
+                tiltZ += (m.gridY > 5 ? -1.0 : 1.0);
+            });
+        }
+
+        if (props.length < motors.length) {
+            flightCapability = 'Unstable';
+            log('warning', `Pre-flight: ${motors.length - props.length} motors are missing propellers!`);
+            tiltX += 0.8; // Fixed tilt for now
+        }
+    }
+
+    // Clamp tilt
+    tiltX = Math.max(-1.5, Math.min(1.5, tiltX));
+    tiltZ = Math.max(-1.5, Math.min(1.5, tiltZ));
+
     Studio.simulationState = 'playing';
     updateSimulationUI();
+
+    if (window.threeScene) {
+        window.threeScene.isPlaying = true;
+        window.threeScene.setSimulationData({
+            flightCapability: flightCapability,
+            tiltX: tiltX,
+            tiltZ: tiltZ,
+            isValid: true
+        });
+    }
 
     try {
         const response = await fetch('/api/drone/simulation/play', { method: 'POST' });
         const result = await response.json();
 
         if (result.success) {
-            updateMonitorsWithResult(result.calculationResult);
-            log('success', 'Simulation started');
-            document.getElementById('canvasStatus').textContent = 'Simulating...';
+            // Merge with local connectivity result
+            const finalResult = { ...result.calculationResult, flightCapability: flightCapability };
+            updateMonitorsWithResult(finalResult);
+            log('success', flightCapability === 'Stable' ? 'Simulation started' : 'Simulation running with warnings');
+            document.getElementById('canvasStatus').textContent = flightCapability === 'Stable' ? 'Simulating...' : 'Warning: Unstable Assembly';
         }
     } catch (error) {
         log('error', 'Failed to start simulation');
@@ -146,6 +210,7 @@ async function playSimulation() {
 async function pauseSimulation() {
     Studio.simulationState = 'paused';
     updateSimulationUI();
+    if (window.threeScene) window.threeScene.isPlaying = false;
 
     await fetch('/api/drone/simulation/pause', { method: 'POST' });
     log('warning', 'Simulation paused');
@@ -155,6 +220,7 @@ async function pauseSimulation() {
 async function stopSimulation() {
     Studio.simulationState = 'stopped';
     updateSimulationUI();
+    if (window.threeScene) window.threeScene.isPlaying = false;
 
     await fetch('/api/drone/simulation/stop', { method: 'POST' });
     log('info', 'Simulation stopped');
@@ -181,7 +247,7 @@ function updateSimulationUI() {
 // ===============================================
 // Component Drag & Drop
 // ===============================================
-let draggedComponent = null;
+window.draggedComponent = null;
 let dropIndicator = null;
 
 function initDragDrop() {
@@ -199,7 +265,7 @@ function initDragDrop() {
 }
 
 function onComponentDragStart(e) {
-    draggedComponent = {
+    window.draggedComponent = {
         id: e.target.dataset.componentId,
         name: e.target.dataset.componentName,
         type: e.target.dataset.componentType,
@@ -209,7 +275,7 @@ function onComponentDragStart(e) {
         icon: e.target.dataset.componentIcon
     };
 
-    e.dataTransfer.setData('text/plain', JSON.stringify(draggedComponent));
+    e.dataTransfer.setData('application/json', JSON.stringify(window.draggedComponent));
     e.dataTransfer.effectAllowed = 'copy';
 
     createDropIndicator();
@@ -218,7 +284,7 @@ function onComponentDragStart(e) {
 
 function onComponentDragEnd(e) {
     removeDropIndicator();
-    draggedComponent = null;
+    window.draggedComponent = null;
     updateStatus('Ready');
 }
 
@@ -1832,7 +1898,19 @@ async function removeComponentById(instanceId) {
         const el = document.getElementById('component-' + instanceId);
         if (el) el.remove();
 
+        const hierarchyNode = document.querySelector(`[data-node-id="${instanceId}"]`);
+        if (hierarchyNode) hierarchyNode.remove();
+
+        if (window.threeScene) {
+            window.threeScene.removeComponent(instanceId);
+            if (window.dragInteraction && window.dragInteraction.transformControls.object?.userData?.id === instanceId) {
+                window.dragInteraction.transformControls.detach();
+                window.dragInteraction.highlightBox.visible = false;
+            }
+        }
+
         Studio.placedComponents = Studio.placedComponents.filter(c => c.instanceId !== instanceId);
+        if (Studio.selectedComponent === instanceId) Studio.selectedComponent = null;
         updateComponentCount();
         updateMonitors();
     }
@@ -1983,6 +2061,14 @@ async function deleteFromHierarchy(nodeId, event) {
             // Remove from hierarchy tree
             const hierarchyNode = document.querySelector(`[data-node-id="${nodeId}"]`);
             if (hierarchyNode) hierarchyNode.remove();
+
+            if (window.threeScene) {
+                window.threeScene.removeComponent(nodeId);
+                if (window.dragInteraction && window.dragInteraction.transformControls.object?.userData?.id === nodeId) {
+                    window.dragInteraction.transformControls.detach();
+                    window.dragInteraction.highlightBox.visible = false;
+                }
+            }
 
             // Update state
             Studio.placedComponents = Studio.placedComponents.filter(

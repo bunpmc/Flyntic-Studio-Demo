@@ -41,3 +41,19 @@ TestResults/
 # NuGet packages
 *.nupkg
 packages/
+
+# Godot Engine
+Godot/.godot/
+Godot/.import/
+Godot/export/
+Godot/*.tmp
+Godot/*.log
+Godot/android/
+Godot/ios/
+Godot/node_modules/
+Godot/packages/
+Godot/vendor/
+Godot/*.user
+Godot/*.userprefs
+Godot/*.lock
+Godot/dump.json

@@ -1,0 +1,744 @@
+[gd_scene load_steps=10 format=3 uid="uid://c8x4j5m3k3p6"]
+
+[ext_resource type="Script" path="res://Main.gd" id="1_main"]
+
+[sub_resource type="StyleBoxFlat" id="sbf_bg"]
+bg_color = Color(0.04, 0.04, 0.05, 1)
+
+[sub_resource type="StyleBoxFlat" id="sbf_panel"]
+bg_color = Color(0.07, 0.07, 0.08, 1)
+border_width_left = 1
+border_width_right = 1
+border_color = Color(0.11, 0.11, 0.13, 1)
+
+[sub_resource type="StyleBoxFlat" id="sbf_header"]
+bg_color = Color(0.09, 0.09, 0.1, 1)
+border_width_bottom = 1
+border_color = Color(0.14, 0.14, 0.16, 1)
+
+[sub_resource type="ProceduralSkyMaterial" id="sky_mat"]
+sky_top_color = Color(0.18, 0.17, 0.2, 1)
+sky_horizon_color = Color(0.12, 0.11, 0.14, 1)
+ground_bottom_color = Color(0.1, 0.1, 0.12, 1)
+ground_horizon_color = Color(0.12, 0.11, 0.14, 1)
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 1.0
+tonemap_mode = 3
+tonemap_exposure = 1.0
+glow_enabled = false
+
+[sub_resource type="StyleBoxFlat" id="sbf_tab_active"]
+bg_color = Color(0.11, 0.11, 0.13, 1)
+border_width_bottom = 2
+border_color = Color(0.12, 0.58, 0.95, 1)
+content_margin_left = 16.0
+content_margin_right = 16.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxFlat" id="sbf_tab_inactive"]
+bg_color = Color(0.06, 0.06, 0.07, 1)
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxFlat" id="sbf_cat_btn"]
+bg_color = Color(0.13, 0.13, 0.15, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+
+; ===== ROOT =====
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_main")
+
+[node name="BG" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("sbf_bg")
+
+; ===== MAIN VERTICAL SPLIT: TopBar | Content | StatusBar =====
+[node name="Root" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+; ----- TOP BAR -----
+[node name="TopBar" type="Panel" parent="Root"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_styles/panel = SubResource("sbf_header")
+
+[node name="H" type="HBoxContainer" parent="Root/TopBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_right = 14
+
+[node name="Title" type="Label" parent="Root/TopBar/H"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Flyntic Studio"
+
+[node name="Sep" type="VSeparator" parent="Root/TopBar/H"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Menus" type="HBoxContainer" parent="Root/TopBar/H"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="M1" type="Label" parent="Root/TopBar/H/Menus"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "File"
+
+[node name="M2" type="Label" parent="Root/TopBar/H/Menus"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "Edit"
+
+[node name="M3" type="Label" parent="Root/TopBar/H/Menus"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "Assets"
+
+[node name="M4" type="Label" parent="Root/TopBar/H/Menus"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "Objects"
+
+[node name="M5" type="Label" parent="Root/TopBar/H/Menus"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "Components"
+
+[node name="M6" type="Label" parent="Root/TopBar/H/Menus"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "Window"
+
+[node name="M7" type="Label" parent="Root/TopBar/H/Menus"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "Help"
+
+[node name="Spacer" type="Control" parent="Root/TopBar/H"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="WiringBtn" type="Button" parent="Root/TopBar/H"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12, 0.58, 0.95, 1)
+theme_override_font_sizes/font_size = 12
+text = "Wiring"
+flat = true
+
+[node name="SimControls" type="HBoxContainer" parent="Root/TopBar/H"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Play" type="Button" parent="Root/TopBar/H/SimControls"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.8, 0.4, 1)
+text = "▶"
+flat = true
+
+[node name="Pause" type="Button" parent="Root/TopBar/H/SimControls"]
+layout_mode = 2
+text = "II"
+flat = true
+
+[node name="Stop" type="Button" parent="Root/TopBar/H/SimControls"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.25, 0.2, 1)
+text = "■"
+flat = true
+
+[node name="Status" type="Label" parent="Root/TopBar/H"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.55, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+text = "stopped"
+
+; ----- CONTENT (Left | Center+Right) -----
+[node name="Content" type="HSplitContainer" parent="Root"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+split_offset = 240
+
+; == LEFT SIDEBAR ==
+[node name="Left" type="VBoxContainer" parent="Root/Content"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HierarchyPanel" type="Panel" parent="Root/Content/Left"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.4
+theme_override_styles/panel = SubResource("sbf_panel")
+
+[node name="V" type="VBoxContainer" parent="Root/Content/Left/HierarchyPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="H" type="HBoxContainer" parent="Root/Content/Left/HierarchyPanel/V"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Icon" type="Label" parent="Root/Content/Left/HierarchyPanel/V/H"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "  ⋔ "
+
+[node name="Lbl" type="Label" parent="Root/Content/Left/HierarchyPanel/V/H"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 10
+text = "HIERARCHY"
+
+[node name="DelBtn" type="Button" parent="Root/Content/Left/HierarchyPanel/V/H"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 12
+text = " × "
+flat = true
+
+[node name="Tree" type="Tree" parent="Root/Content/Left/HierarchyPanel/V"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 12
+hide_root = true
+
+[node name="CompPanel" type="Panel" parent="Root/Content/Left"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.6
+theme_override_styles/panel = SubResource("sbf_panel")
+
+[node name="V" type="VBoxContainer" parent="Root/Content/Left/CompPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Lbl" type="Label" parent="Root/Content/Left/CompPanel/V"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.45, 0.45, 1)
+theme_override_font_sizes/font_size = 10
+text = "  COMPONENTS"
+
+[node name="CompList" type="ItemList" parent="Root/Content/Left/CompPanel/V"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 12
+
+; == CENTER + RIGHT ==
+[node name="CenterRight" type="HSplitContainer" parent="Root/Content"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+split_offset = -200
+
+; CENTER WORKSPACE
+[node name="Center" type="VSplitContainer" parent="Root/Content/CenterRight"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+split_offset = -120
+
+[node name="Tabs" type="TabContainer" parent="Root/Content/CenterRight/Center"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/tab_selected = SubResource("sbf_tab_active")
+theme_override_styles/tab_unselected = SubResource("sbf_tab_inactive")
+theme_override_styles/panel = SubResource("sbf_panel")
+current_tab = 0
+
+; -- Canvas Tab --
+[node name="Canvas" type="Control" parent="Root/Content/CenterRight/Center/Tabs"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="VPC" type="SubViewportContainer" parent="Root/Content/CenterRight/Center/Tabs/Canvas"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="VP" type="SubViewport" parent="Root/Content/CenterRight/Center/Tabs/Canvas/VPC"]
+handle_input_locally = false
+msaa_3d = 1
+size = Vector2i(960, 540)
+render_target_update_mode = 4
+
+[node name="Scene" type="Node3D" parent="Root/Content/CenterRight/Center/Tabs/Canvas/VPC/VP"]
+
+[node name="Env" type="WorldEnvironment" parent="Root/Content/CenterRight/Center/Tabs/Canvas/VPC/VP/Scene"]
+environment = SubResource("env")
+
+[node name="KeyLight" type="DirectionalLight3D" parent="Root/Content/CenterRight/Center/Tabs/Canvas/VPC/VP/Scene"]
+transform = Transform3D(-0.866, -0.433, 0.25, 0, 0.5, 0.866, -0.5, 0.75, -0.433, 10, 20, 10)
+light_energy = 0.5
+light_color = Color(0.95, 0.95, 1, 1)
+shadow_enabled = true
+
+[node name="FillLight" type="OmniLight3D" parent="Root/Content/CenterRight/Center/Tabs/Canvas/VPC/VP/Scene"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 8, -8)
+light_color = Color(0.85, 0.85, 0.9, 1)
+light_energy = 0.3
+omni_range = 30.0
+
+[node name="Pivot" type="Node3D" parent="Root/Content/CenterRight/Center/Tabs/Canvas/VPC/VP/Scene"]
+
+[node name="Camera" type="Camera3D" parent="Root/Content/CenterRight/Center/Tabs/Canvas/VPC/VP/Scene/Pivot"]
+transform = Transform3D(1, 0, 0, 0, 0.866, 0.5, 0, -0.5, 0.866, 0, 5, 10)
+
+[node name="Components" type="Node3D" parent="Root/Content/CenterRight/Center/Tabs/Canvas/VPC/VP/Scene"]
+
+[node name="SnapHints" type="Node3D" parent="Root/Content/CenterRight/Center/Tabs/Canvas/VPC/VP/Scene"]
+
+[node name="Wires" type="Node3D" parent="Root/Content/CenterRight/Center/Tabs/Canvas/VPC/VP/Scene"]
+
+; -- Blocks Tab --
+[node name="Blocks" type="Control" parent="Root/Content/CenterRight/Center/Tabs"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="H" type="HBoxContainer" parent="Root/Content/CenterRight/Center/Tabs/Blocks"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 2
+
+[node name="CatPanel" type="Panel" parent="Root/Content/CenterRight/Center/Tabs/Blocks/H"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("sbf_panel")
+
+[node name="V" type="VBoxContainer" parent="Root/Content/CenterRight/Center/Tabs/Blocks/H/CatPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_top = 10
+alignment = 1
+
+[node name="Events" type="Button" parent="Root/Content/CenterRight/Center/Tabs/Blocks/H/CatPanel/V"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.7, 0.15, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("sbf_cat_btn")
+text = "Events"
+
+[node name="Motion" type="Button" parent="Root/Content/CenterRight/Center/Tabs/Blocks/H/CatPanel/V"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.25, 0.55, 1, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("sbf_cat_btn")
+text = "Motion"
+
+[node name="Control" type="Button" parent="Root/Content/CenterRight/Center/Tabs/Blocks/H/CatPanel/V"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("sbf_cat_btn")
+text = "Control"
+
+[node name="Sensing" type="Button" parent="Root/Content/CenterRight/Center/Tabs/Blocks/H/CatPanel/V"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("sbf_cat_btn")
+text = "Sensing"
+
+[node name="Operators" type="Button" parent="Root/Content/CenterRight/Center/Tabs/Blocks/H/CatPanel/V"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 0.3, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("sbf_cat_btn")
+text = "Operators"
+
+[node name="Variables" type="Button" parent="Root/Content/CenterRight/Center/Tabs/Blocks/H/CatPanel/V"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.4, 0.35, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("sbf_cat_btn")
+text = "Variables"
+
+[node name="GraphEdit" type="GraphEdit" parent="Root/Content/CenterRight/Center/Tabs/Blocks/H"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+; -- Code Tab --
+[node name="Code" type="Control" parent="Root/Content/CenterRight/Center/Tabs"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="Editor" type="CodeEdit" parent="Root/Content/CenterRight/Center/Tabs/Code"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/background_color = Color(0.03, 0.03, 0.04, 1)
+theme_override_font_sizes/font_size = 13
+text = "// Generated code will appear here
+// You can also write your own drone control code
+
+async function runDrone() {
+	await drone.takeoff();
+	await drone.moveUp(100);
+	await drone.hover(2000);
+	await drone.land();
+}"
+
+; -- Console Panel --
+[node name="Console" type="Panel" parent="Root/Content/CenterRight/Center"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("sbf_panel")
+
+[node name="V" type="VBoxContainer" parent="Root/Content/CenterRight/Center/Console"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TabRow" type="HBoxContainer" parent="Root/Content/CenterRight/Center/Console/V"]
+layout_mode = 2
+theme_override_constants/separation = 12
+theme_override_constants/margin_left = 8
+
+[node name="Console" type="Button" parent="Root/Content/CenterRight/Center/Console/V/TabRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "Console"
+flat = true
+
+[node name="Output" type="Button" parent="Root/Content/CenterRight/Center/Console/V/TabRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.55, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+text = "Output"
+flat = true
+
+[node name="Problems" type="Button" parent="Root/Content/CenterRight/Center/Console/V/TabRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.55, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+text = "Problems"
+flat = true
+
+[node name="Spacer" type="Control" parent="Root/Content/CenterRight/Center/Console/V/TabRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Log" type="RichTextLabel" parent="Root/Content/CenterRight/Center/Console/V"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 11
+bbcode_enabled = true
+
+; == RIGHT SIDEBAR ==
+[node name="Right" type="Panel" parent="Root/Content/CenterRight"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("sbf_panel")
+
+[node name="Scroll" type="ScrollContainer" parent="Root/Content/CenterRight/Right"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="V" type="VBoxContainer" parent="Root/Content/CenterRight/Right/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/separation = 16
+
+[node name="SimPanel" type="HBoxContainer" parent="Root/Content/CenterRight/Right/Scroll/V"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PlayBtn" type="Button" parent="Root/Content/CenterRight/Right/Scroll/V/SimPanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.85, 0.45, 1)
+text = "▶"
+flat = true
+
+[node name="PauseBtn" type="Button" parent="Root/Content/CenterRight/Right/Scroll/V/SimPanel"]
+layout_mode = 2
+text = "II"
+flat = true
+
+[node name="StopBtn" type="Button" parent="Root/Content/CenterRight/Right/Scroll/V/SimPanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.25, 0.2, 1)
+text = "■"
+flat = true
+
+[node name="Spacer" type="Control" parent="Root/Content/CenterRight/Right/Scroll/V/SimPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StatusLbl" type="Label" parent="Root/Content/CenterRight/Right/Scroll/V/SimPanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 11
+text = "Ready"
+
+[node name="MonLbl" type="Label" parent="Root/Content/CenterRight/Right/Scroll/V"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 10
+text = "MONITORS"
+horizontal_alignment = 2
+
+; -- PERFORMANCE --
+[node name="Perf" type="VBoxContainer" parent="Root/Content/CenterRight/Right/Scroll/V"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Lbl" type="Label" parent="Root/Content/CenterRight/Right/Scroll/V/Perf"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "PERFORMANCE"
+
+[node name="Sep" type="HSeparator" parent="Root/Content/CenterRight/Right/Scroll/V/Perf"]
+layout_mode = 2
+
+[node name="Weight" type="HBoxContainer" parent="Root/Content/CenterRight/Right/Scroll/V/Perf"]
+layout_mode = 2
+
+[node name="L" type="Label" parent="Root/Content/CenterRight/Right/Scroll/V/Perf/Weight"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.65, 0.65, 0.65, 1)
+theme_override_font_sizes/font_size = 12
+text = "Total Weight"
+
+[node name="Val" type="Label" parent="Root/Content/CenterRight/Right/Scroll/V/Perf/Weight"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0 g"
+
+[node name="Thrust" type="HBoxContainer" parent="Root/Content/CenterRight/Right/Scroll/V/Perf"]
+layout_mode = 2
+
+[node name="L" type="Label" parent="Root/Content/CenterRight/Right/Scroll/V/Perf/Thrust"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.65, 0.65, 0.65, 1)
+theme_override_font_sizes/font_size = 12
+text = "Total Thrust"
+
+[node name="Val" type="Label" parent="Root/Content/CenterRight/Right/Scroll/V/Perf/Thrust"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0 kg"
+
+[node name="TWR" type="HBoxContainer" parent="Root/Content/CenterRight/Right/Scroll/V/Perf"]
+layout_mode = 2
+
+[node name="L" type="Label" parent="Root/Content/CenterRight/Right/Scroll/V/Perf/TWR"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.65, 0.65, 0.65, 1)
+theme_override_font_sizes/font_size = 12
+text = "Thrust/Weight"
+
+[node name="Val" type="Label" parent="Root/Content/CenterRight/Right/Scroll/V/Perf/TWR"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0:1"
+
+[node name="Capability" type="HBoxContainer" parent="Root/Content/CenterRight/Right/Scroll/V/Perf"]
+layout_mode = 2
+
+[node name="L" type="Label" parent="Root/Content/CenterRight/Right/Scroll/V/Perf/Capability"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.65, 0.65, 0.65, 1)
+theme_override_font_sizes/font_size = 12
+text = "Capability"
+
+[node name="Val" type="Label" parent="Root/Content/CenterRight/Right/Scroll/V/Perf/Capability"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "N/A"
+
+; -- POWER --
+[node name="Power" type="VBoxContainer" parent="Root/Content/CenterRight/Right/Scroll/V"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Lbl" type="Label" parent="Root/Content/CenterRight/Right/Scroll/V/Power"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "POWER"
+
+[node name="Sep" type="HSeparator" parent="Root/Content/CenterRight/Right/Scroll/V/Power"]
+layout_mode = 2
+
+[node name="Battery" type="HBoxContainer" parent="Root/Content/CenterRight/Right/Scroll/V/Power"]
+layout_mode = 2
+
+[node name="L" type="Label" parent="Root/Content/CenterRight/Right/Scroll/V/Power/Battery"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.65, 0.65, 0.65, 1)
+theme_override_font_sizes/font_size = 12
+text = "Battery"
+
+[node name="Val" type="Label" parent="Root/Content/CenterRight/Right/Scroll/V/Power/Battery"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0 mAh"
+
+[node name="FlightTime" type="HBoxContainer" parent="Root/Content/CenterRight/Right/Scroll/V/Power"]
+layout_mode = 2
+
+[node name="L" type="Label" parent="Root/Content/CenterRight/Right/Scroll/V/Power/FlightTime"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.65, 0.65, 0.65, 1)
+theme_override_font_sizes/font_size = 12
+text = "Flight Time"
+
+[node name="Val" type="Label" parent="Root/Content/CenterRight/Right/Scroll/V/Power/FlightTime"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0.0 min"
+
+; -- DIAGNOSTICS --
+[node name="Diag" type="VBoxContainer" parent="Root/Content/CenterRight/Right/Scroll/V"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Lbl" type="Label" parent="Root/Content/CenterRight/Right/Scroll/V/Diag"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "DIAGNOSTICS"
+
+[node name="Sep" type="HSeparator" parent="Root/Content/CenterRight/Right/Scroll/V/Diag"]
+layout_mode = 2
+
+[node name="DiagText" type="RichTextLabel" parent="Root/Content/CenterRight/Right/Scroll/V/Diag"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 11
+bbcode_enabled = true
+text = "[color=#f44336]No battery placed[/color]"
+
+; ----- STATUS BAR -----
+[node name="StatusBar" type="Panel" parent="Root"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme_override_styles/panel = SubResource("sbf_header")
+
+[node name="H" type="HBoxContainer" parent="Root/StatusBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_right = 14
+
+[node name="Ready" type="Label" parent="Root/StatusBar/H"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.55, 0.55, 1)
+theme_override_font_sizes/font_size = 10
+text = "Ready"
+
+[node name="Spacer" type="Control" parent="Root/StatusBar/H"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Grid" type="Label" parent="Root/StatusBar/H"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.55, 0.55, 1)
+theme_override_font_sizes/font_size = 10
+text = "Grid: 0, 0"
+
+[node name="Comp" type="Label" parent="Root/StatusBar/H"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.55, 0.55, 1)
+theme_override_font_sizes/font_size = 10
+text = "  Components: 0"

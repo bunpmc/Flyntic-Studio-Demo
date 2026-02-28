@@ -104,8 +104,13 @@
                 </li>
             </ul>
             
-            <!-- Centered Simulation Controls -->
             <div class="simulation-controls mx-auto">
+                <button class="btn btn-outline-info btn-sm" id="btnWiring" onclick="toggleWiringMode()" title="Wiring Mode">
+                    <i class="bi bi-connector-plus"></i> Wiring
+                </button>
+                <button class="btn btn-outline-secondary btn-sm" id="btnTidy" onclick="toggleTidyWires()" title="Tidy/Sag Wires">
+                    <i class="bi bi-distribute-vertical"></i> Tidy
+                </button>
                 <button class="btn btn-outline-success btn-sm" id="btnPlay" onclick="playSimulation()" title="Play">
                     <i class="bi bi-play-fill"></i>
                 </button>

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FlynticStudio.Services")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b3967a81119bb3864aefd2a0cb83657a3320e9d3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2074a256ef5505cf2f9c07ddad35392a14298a61")]
 [assembly: System.Reflection.AssemblyProductAttribute("FlynticStudio.Services")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FlynticStudio.Services")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

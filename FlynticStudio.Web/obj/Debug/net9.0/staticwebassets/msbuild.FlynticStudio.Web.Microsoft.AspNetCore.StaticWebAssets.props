@@ -12,8 +12,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>s0lo67e80i</Fingerprint>
-      <Integrity>lF29qJzq57ehQWyCwjYZZOoqVdYEezv3ocV5gAECiUY=</Integrity>
+      <Fingerprint>llyu7s9yz8</Fingerprint>
+      <Integrity>qXEyGeY2KpBkvrZcK4GrmmCwCr/Y1Kj+YMb885O1NHM=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\site.css'))</OriginalItemSpec>
@@ -30,8 +30,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>8ptuvmkppc</Fingerprint>
-      <Integrity>JPe6X6RYQ3ivm3qieR3ctQSPyUZzGg6KCiWr0lLBpKk=</Integrity>
+      <Fingerprint>nknci1pq77</Fingerprint>
+      <Integrity>qffga1kwBxGfv49mqRCkDfGB+egSVxl2JyfjXLts1sM=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\dragInteraction.js'))</OriginalItemSpec>
@@ -66,8 +66,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>pyxl5pgpnv</Fingerprint>
-      <Integrity>z/dtkK78jE2oJI2/3cWf8HxRJMRPMberfopCWmHBqEM=</Integrity>
+      <Fingerprint>xm186zlj6y</Fingerprint>
+      <Integrity>twODonZdqd2dxg87gnLNTw+Rrbl4hXcMUS8FQs+Cdu4=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\main.js'))</OriginalItemSpec>
@@ -84,8 +84,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>wlbxci7amu</Fingerprint>
-      <Integrity>/EJPVBcjrY2UYoAMxYU5uAxvidabiBTyDcVHfrJS258=</Integrity>
+      <Fingerprint>nelii97le3</Fingerprint>
+      <Integrity>If12RTkW6hOdZTHgesClcNOV4nNpJ4pYkmARnzmZ0+M=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\threeScene.js'))</OriginalItemSpec>
